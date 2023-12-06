@@ -1,14 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>llnuget</AssemblyName>
+        <Version>0.0.1</Version>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NuGet.Protocol" Version="6.8.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CommandDotNet" Version="7.0.2" />
+        <PackageReference Include="NuGet.Protocol" Version="6.8.0" />
+    </ItemGroup>
 
 </Project>
