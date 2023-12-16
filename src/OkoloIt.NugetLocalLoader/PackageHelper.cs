@@ -6,7 +6,7 @@ using NuGet.Versioning;
 namespace OkoloIt.NugetLocalLoader.Core;
 
 /// <summary>
-/// Nuget package manager.
+/// Nuget package helper.
 /// </summary>
 public sealed class PackageHelper
 {
@@ -22,7 +22,7 @@ public sealed class PackageHelper
     #region Public Constructors
 
     /// <summary>
-    /// Creates an instance of the nuget package manager.
+    /// Creates an instance of the nuget package helper.
     /// </summary>
     public PackageHelper()
     {
