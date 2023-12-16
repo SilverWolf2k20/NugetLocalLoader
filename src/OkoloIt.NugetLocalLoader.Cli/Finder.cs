@@ -19,7 +19,7 @@ public sealed class Finder
         [Named('c', Description = "Number of output records from the latest version.")]
         int count = 10)
     {
-        PackageManager packageManager = new PackageManager();
+        PackageHelper packageManager = new PackageHelper();
         IEnumerable<string> versions = packageManager.GetAllPackageVersions(packageName, count).Result;
 
         foreach (string version in versions)
@@ -36,7 +36,7 @@ public sealed class Finder
         [Named('c', Description = "Number of output records.")]
         int count = 10)
     {
-        PackageManager packageManager = new PackageManager();
+        PackageHelper packageManager = new PackageHelper();
         IEnumerable<string> versions = packageManager.GetPackages(packageName, count).Result;
 
         foreach (string version in versions)
