@@ -12,10 +12,10 @@ public sealed class PackageHelper
 {
     #region Private Fields
 
-    private SourceCacheContext _cache;
-    private CancellationToken _cancellationToken;
-    private ILogger _logger;
-    private SourceRepository _repository;
+    private readonly SourceCacheContext _cache;
+    private readonly CancellationToken _cancellationToken;
+    private readonly ILogger _logger;
+    private readonly SourceRepository _repository;
 
     #endregion Private Fields
 
