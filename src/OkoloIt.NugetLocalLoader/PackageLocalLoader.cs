@@ -40,7 +40,8 @@ public sealed class PackageManager
             _logger,
             _cancellationToken);
 
-        return versions.Select(version => version.ToString());
+        return versions.OrderByDescending(v => v.Version)
+            .Select(version => version.ToString());
     }
 
     #endregion Public Methods
