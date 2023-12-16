@@ -6,6 +6,9 @@ using NuGet.Versioning;
 
 namespace OkoloIt.NugetLocalLoader.Core;
 
+/// <summary>
+/// Nuget package loader.
+/// </summary>
 public sealed class PackageLoader
 {
     #region Private Fields
@@ -34,6 +37,13 @@ public sealed class PackageLoader
 
     #region Public Methods
 
+    /// <summary>
+    /// Downloads the specified version of the package to the folder.
+    /// </summary>
+    /// <param name="packageName">Target package name.</param>
+    /// <param name="version">Target version.</param>
+    /// <param name="path">Target path.</param>
+    /// <returns>Represents an asynchronous operation.</returns>
     public async Task LoadPackage(string packageName, string version, string path)
     {
         FindPackageByIdResource resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
