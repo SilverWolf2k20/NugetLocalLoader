@@ -1,6 +1,6 @@
 ﻿using CommandDotNet;
 
-using OkoloIt.NugetLocalLoader.Cli;
+namespace OkoloIt.NugetLocalLoader.Cli;
 
 [Command(
     Description = "NugetLocalLoader is a program to load Nuget packages into a local folder with all dependencies.")]
@@ -10,6 +10,9 @@ public class Program
 
     [Subcommand(RenameAs = "find")]
     public Finder Finder { get; set; } = new();
+
+    [Subcommand(RenameAs = "load")]
+    public Loader Loader { get; set; } = new();
 
     #endregion Public Properties
 
