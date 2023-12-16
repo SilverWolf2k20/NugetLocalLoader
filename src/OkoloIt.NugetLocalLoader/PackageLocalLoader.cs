@@ -57,5 +57,27 @@ public sealed class PackageManager
             .Select(version => version.ToString());
     }
 
+    /// <summary>
+    /// Returns a list of all packages.
+    /// </summary>
+    /// <param name="packageName">Package name.</param>
+    /// <param name="count">Number of output packets matching by name.</param>
+    /// <returns>List of packages.</returns>
+    public async Task<IEnumerable<string>> GetPackages(string packageName, int count)
+    {
+        PackageSearchResource resource = await _repository.GetResourceAsync<PackageSearchResource>();
+        SearchFilter searchFilter = new(includePrerelease: true);
+
+        IEnumerable<IPackageSearchMetadata> results = await resource.SearchAsync(
+            packageName,
+            searchFilter,
+            skip: 0,
+            take: count,
+            _logger,
+            _cancellationToken);
+
+        return results.Select(p => p.Identity.Id.ToString());
+    }
+
     #endregion Public Methods
 }

@@ -26,5 +26,22 @@ public sealed class Finder
             console.WriteLine(version);
     }
 
+    [Command(
+        "packages",
+        Description = "Displays a list of packages.",
+        Usage = "packages <package_name>")]
+    public void FindPackages(IConsole console,
+        [Operand("packageName", Description = "Target package name.")]
+        string packageName,
+        [Named('c', Description = "Number of output records.")]
+        int count = 10)
+    {
+        PackageManager packageManager = new PackageManager();
+        IEnumerable<string> versions = packageManager.GetPackages(packageName, count).Result;
+
+        foreach (string version in versions)
+            console.WriteLine(version);
+    }
+
     #endregion Public Methods
 }
