@@ -1,29 +1,9 @@
-﻿using CommandDotNet;
+﻿using DotMake.CommandLine;
 
-namespace OkoloIt.NugetLocalLoader.Cli;
+using OkoloIt.NugetLocalLoader.Cli.Commands;
 
-[Command(
-    Description = "NugetLocalLoader is a program to load Nuget packages into a local folder with all dependencies.")]
-public class Program
-{
-    #region Public Properties
+using System.Reflection;
 
-    [Subcommand(RenameAs = "find")]
-    public Finder Finder { get; set; } = new();
+[assembly: AssemblyVersion("0.0.3.*")]
 
-    [Subcommand(RenameAs = "load")]
-    public Loader Loader { get; set; } = new();
-
-    #endregion Public Properties
-
-    #region Public Methods
-
-    public static async Task<int> Main(string[] args)
-    {
-        return await new AppRunner<Program>()
-            .UseVersionMiddleware()
-            .RunAsync(args);
-    }
-
-    #endregion Public Methods
-}
+await Cli.RunAsync<RootCliCommand>(args);

@@ -44,7 +44,7 @@ public sealed class PackageLoader
     /// <param name="version">Target version.</param>
     /// <param name="path">Target path.</param>
     /// <returns>Represents an asynchronous operation.</returns>
-    public async Task LoadPackage(string packageName, string version, string path)
+    public async Task LoadPackageAsync(string packageName, string version, string path)
     {
         FindPackageByIdResource resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
 
