@@ -1,4 +1,7 @@
-﻿using DotMake.CommandLine;
+﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+
+using DotMake.CommandLine;
 
 namespace OkoloIt.NugetLocalLoader.Cli.Commands.Load;
 
@@ -10,9 +13,9 @@ public sealed class LoadCommand
 {
     #region Public Methods
 
-    public void Run()
+    public void Run(InvocationContext context)
     {
-        Console.WriteLine("Enter the name of the subcommand or call help (-h; --help).");
+        context.Console.WriteLine("Enter the name of the subcommand or call help (-h; --help).");
     }
 
     #endregion Public Methods
