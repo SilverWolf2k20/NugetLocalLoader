@@ -6,11 +6,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>llnuget</AssemblyName>
-        <Version>0.0.2</Version>
+        <Deterministic>false</Deterministic>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <Deterministic>false</Deterministic>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommandDotNet" Version="7.0.2" />
+        <PackageReference Include="DotMake.CommandLine" Version="1.5.6" />
     </ItemGroup>
 
     <ItemGroup>
