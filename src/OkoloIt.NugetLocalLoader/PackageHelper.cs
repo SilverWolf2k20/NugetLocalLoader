@@ -42,7 +42,7 @@ public sealed class PackageHelper
     /// <param name="packageName">Package name.</param>
     /// <param name="count">Number of output records from the latest version.</param>
     /// <returns>List of all versions of the package.</returns>
-    public async Task<IEnumerable<string>> GetAllPackageVersions(string packageName, int count)
+    public async Task<IEnumerable<string>> GetAllPackageVersionsAsync(string packageName, int count)
     {
         FindPackageByIdResource resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
 
@@ -63,7 +63,7 @@ public sealed class PackageHelper
     /// <param name="packageName">Package name.</param>
     /// <param name="count">Number of output packets matching by name.</param>
     /// <returns>List of packages.</returns>
-    public async Task<IEnumerable<string>> GetPackages(string packageName, int count)
+    public async Task<IEnumerable<string>> GetPackagesAsync(string packageName, int count)
     {
         PackageSearchResource resource = await _repository.GetResourceAsync<PackageSearchResource>();
         SearchFilter searchFilter = new(includePrerelease: true);
