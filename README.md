@@ -12,7 +12,7 @@
 ## Установка
 
 ```batch
-dotnet tool install --global --add-source .\nupkg llnuget --varsion 0.0.3
+dotnet tool install --global --add-source .\nupkg llnuget --version 0.0.3
 ```
 
 ## Использование
