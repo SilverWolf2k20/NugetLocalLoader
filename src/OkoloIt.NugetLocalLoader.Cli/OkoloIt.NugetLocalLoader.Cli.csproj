@@ -9,6 +9,9 @@
         <Deterministic>false</Deterministic>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <Deterministic>false</Deterministic>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>llnuget</ToolCommandName>
+        <PackageOutputPath>./nupkg</PackageOutputPath>
     </PropertyGroup>
 
     <ItemGroup>
