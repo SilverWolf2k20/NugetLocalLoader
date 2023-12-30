@@ -1,4 +1,7 @@
-﻿using DotMake.CommandLine;
+﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+
+using DotMake.CommandLine;
 
 using OkoloIt.NugetLocalLoader.Core;
 
@@ -25,20 +28,26 @@ public sealed class LoadPackageSubcommand
 
     #region Public Methods
 
-    public async Task RunAsync()
+    public async Task RunAsync(InvocationContext context)
     {
         if (string.IsNullOrWhiteSpace(Version))
-            Version = await GetLatestVesionAsync(PackageName);
+            Version = await GetLatestVesionAsync(
+                PackageName,
+                context.GetCancellationToken());
 
-        Console.WriteLine($"Select version: {Version}.");
+        context.Console.WriteLine($"Select version: {Version}");
 
         if (string.IsNullOrWhiteSpace(Path))
             Path = GetDefaultPath();
 
         PackageLoader packageLoader = new();
-        await packageLoader.LoadPackageAsync(PackageName, Version, Path);
+        string filePath = await packageLoader.LoadPackageAsync(
+            PackageName,
+            Version,
+            Path,
+            context.GetCancellationToken());
 
-        Console.WriteLine($"Downloaded to:  {Path}.");
+        context.Console.WriteLine($"Downloaded to:  {filePath}");
     }
 
     #endregion Public Methods
@@ -51,10 +60,16 @@ public sealed class LoadPackageSubcommand
         return System.IO.Path.Combine(profilePath, "Downloads");
     }
 
-    private static async Task<string> GetLatestVesionAsync(string packageName)
+    private static async Task<string> GetLatestVesionAsync(
+        string packageName,
+        CancellationToken cancellationToken)
     {
         PackageHelper packageHelper = new();
-        IEnumerable<string> versions = await packageHelper.GetAllPackageVersionsAsync(packageName, 1);
+        IEnumerable<string> versions = await packageHelper.GetAllPackageVersionsAsync(
+            packageName,
+            count: 1,
+            cancellationToken);
+
         return versions.First();
     }
 

@@ -1,4 +1,7 @@
-﻿using DotMake.CommandLine;
+﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+
+using DotMake.CommandLine;
 
 namespace OkoloIt.NugetLocalLoader.Cli.Commands;
 
@@ -7,13 +10,10 @@ public class RootCliCommand
 {
     #region Public Methods
 
-    public void Run()
+    public void Run(InvocationContext context)
     {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($@"<Okolo IT>");
-
-        Console.ResetColor();
-        Console.WriteLine($@"Hello, this is a NugetLocalLoader!");
+        context.Console.WriteLine("<Okolo IT>\n");
+        context.Console.WriteLine("Hello, this is a NugetLocalLoader!");
     }
 
     #endregion Public Methods

@@ -1,4 +1,7 @@
-﻿using DotMake.CommandLine;
+﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+
+using DotMake.CommandLine;
 
 using OkoloIt.NugetLocalLoader.Core;
 
@@ -22,13 +25,16 @@ public sealed class FindPackagesSubcommand
 
     #region Public Methods
 
-    public async Task RunAsync()
+    public async Task RunAsync(InvocationContext context)
     {
         PackageHelper packageManager = new();
-        IEnumerable<string> packages = await packageManager.GetPackagesAsync(PackageName, Count);
+        IEnumerable<string> packages = await packageManager.GetPackagesAsync(
+            PackageName,
+            Count,
+            context.GetCancellationToken());
 
         foreach (string package in packages)
-            Console.WriteLine(package);
+            context.Console.WriteLine(package);
     }
 
     #endregion Public Methods

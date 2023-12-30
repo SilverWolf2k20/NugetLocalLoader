@@ -14,7 +14,6 @@ public sealed class PackageLoader
     #region Private Fields
 
     private readonly SourceCacheContext _cache;
-    private readonly CancellationToken _cancellationToken;
     private readonly ILogger _logger;
     private readonly SourceRepository _repository;
 
@@ -28,7 +27,6 @@ public sealed class PackageLoader
     public PackageLoader()
     {
         _logger = NullLogger.Instance;
-        _cancellationToken = CancellationToken.None;
         _cache = new SourceCacheContext();
         _repository = Repository.Factory.GetCoreV3("https://api.nuget.org/v3/index.json");
     }
@@ -43,8 +41,13 @@ public sealed class PackageLoader
     /// <param name="packageName">Target package name.</param>
     /// <param name="version">Target version.</param>
     /// <param name="path">Target path.</param>
+    /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns>Represents an asynchronous operation.</returns>
-    public async Task LoadPackageAsync(string packageName, string version, string path)
+    public async Task<string> LoadPackageAsync(
+        string packageName,
+        string version,
+        string path,
+        CancellationToken cancellationToken)
     {
         FindPackageByIdResource resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
 
@@ -57,12 +60,16 @@ public sealed class PackageLoader
             packageStream,
             _cache,
             _logger,
-            _cancellationToken);
+            cancellationToken);
 
         using PackageArchiveReader packageReader = new(packageStream);
-        NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(_cancellationToken);
+        NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
-        packageStream.CopyToFile(Path.Combine(path, $"{packageName}.{version}.nupkg"));
+        string filePath = Path.Combine(path, $"{packageName}.{version}.nupkg");
+
+        packageStream.CopyToFile(Path.Combine(path, filePath));
+
+        return filePath;
     }
 
     #endregion Public Methods

@@ -1,4 +1,7 @@
-﻿using DotMake.CommandLine;
+﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+
+using DotMake.CommandLine;
 
 using OkoloIt.NugetLocalLoader.Core;
 
@@ -22,13 +25,16 @@ public sealed class FindPackageVersionsSubcommand
 
     #region Public Methods
 
-    public async Task RunAsync()
+    public async Task RunAsync(InvocationContext context)
     {
         PackageHelper packageManager = new();
-        IEnumerable<string> versions = await packageManager.GetAllPackageVersionsAsync(PackageName, Count);
+        IEnumerable<string> versions = await packageManager.GetAllPackageVersionsAsync(
+            PackageName,
+            Count,
+            context.GetCancellationToken());
 
         foreach (string version in versions)
-            Console.WriteLine(version);
+            context.Console.WriteLine(version);
     }
 
     #endregion Public Methods
