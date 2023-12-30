@@ -6,4 +6,13 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("0.0.3.*")]
 
-await Cli.RunAsync<RootCliCommand>(args);
+try {
+    await Cli.RunAsync<RootCliCommand>(args);
+}
+catch (OperationCanceledException ex) {
+    Console.WriteLine("The command was canceled.");
+}
+catch (Exception ex) {
+    Console.WriteLine("Unregistered exception.");
+    Console.WriteLine(ex);
+}
