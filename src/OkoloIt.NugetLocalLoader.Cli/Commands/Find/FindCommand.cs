@@ -7,7 +7,7 @@ namespace OkoloIt.NugetLocalLoader.Cli.Commands.Find;
 
 [CliCommand(
     Name = "find",
-    Description = "Performs a search",
+    Description = "Performs a search.",
     Parent = typeof(RootCliCommand))]
 public sealed class FindCommand
 {

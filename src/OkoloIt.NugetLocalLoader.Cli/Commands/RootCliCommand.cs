@@ -5,7 +5,7 @@ using DotMake.CommandLine;
 
 namespace OkoloIt.NugetLocalLoader.Cli.Commands;
 
-[CliCommand(Description = "A root cli command")]
+[CliCommand(Description = "A root cli command.")]
 public class RootCliCommand
 {
     #region Public Methods
