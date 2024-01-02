@@ -4,12 +4,12 @@ using OkoloIt.NugetLocalLoader.Cli.Commands;
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("0.0.3.*")]
+[assembly: AssemblyVersion("0.1.0.*")]
 
 try {
     await Cli.RunAsync<RootCliCommand>(args);
 }
-catch (OperationCanceledException ex) {
+catch (OperationCanceledException) {
     Console.WriteLine("The command was canceled.");
 }
 catch (Exception ex) {
