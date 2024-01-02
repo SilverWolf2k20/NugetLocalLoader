@@ -7,6 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OkoloIt.NugetLocalLoader.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OkoloIt.NugetLocalLoader.Cli", "src\OkoloIt.NugetLocalLoader.Cli\OkoloIt.NugetLocalLoader.Cli.csproj", "{7895D939-96FF-4D67-A529-113B224E26C1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{65211D29-1182-4E0C-90EC-52B770203DEA}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3FD9B416-76BC-406E-AB80-153B0AC1DBDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +32,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{03A0BD7C-E1B9-4A5A-AF0F-B8516F802AC2} = {3FD9B416-76BC-406E-AB80-153B0AC1DBDF}
+		{7895D939-96FF-4D67-A529-113B224E26C1} = {3FD9B416-76BC-406E-AB80-153B0AC1DBDF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {977F47AE-AEC5-457D-A649-4EB7EEC3D23F}
