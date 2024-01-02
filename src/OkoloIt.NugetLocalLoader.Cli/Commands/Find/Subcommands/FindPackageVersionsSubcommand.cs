@@ -28,6 +28,9 @@ public sealed class FindPackageVersionsSubcommand
     public async Task RunAsync(InvocationContext context)
     {
         PackageHelper packageManager = new();
+
+        context.Console.WriteLine($"Loading...");
+
         IEnumerable<string> versions = await packageManager.GetAllPackageVersionsAsync(
             PackageName,
             Count,

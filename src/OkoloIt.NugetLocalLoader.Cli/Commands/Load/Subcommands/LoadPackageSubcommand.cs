@@ -40,6 +40,8 @@ public sealed class LoadPackageSubcommand
         if (string.IsNullOrWhiteSpace(Path))
             Path = GetDefaultPath();
 
+        context.Console.WriteLine($"Loading...");
+
         PackageLoader packageLoader = new();
         string filePath = await packageLoader.LoadPackageAsync(
             PackageName,
