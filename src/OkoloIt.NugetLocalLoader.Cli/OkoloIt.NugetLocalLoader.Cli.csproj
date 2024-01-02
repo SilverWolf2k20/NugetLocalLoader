@@ -16,7 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DotMake.CommandLine" Version="1.5.6" />
+        <PackageReference Include="DotMake.CommandLine" Version="1.5.7" />
     </ItemGroup>
 
     <ItemGroup>
