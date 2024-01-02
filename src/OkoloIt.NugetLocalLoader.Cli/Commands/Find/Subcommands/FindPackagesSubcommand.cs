@@ -28,6 +28,9 @@ public sealed class FindPackagesSubcommand
     public async Task RunAsync(InvocationContext context)
     {
         PackageHelper packageManager = new();
+
+        context.Console.WriteLine($"Loading...");
+
         IEnumerable<string> packages = await packageManager.GetPackagesAsync(
             PackageName,
             Count,
