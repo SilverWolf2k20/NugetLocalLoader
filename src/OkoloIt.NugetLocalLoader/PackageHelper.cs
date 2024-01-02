@@ -1,4 +1,6 @@
 ﻿using NuGet.Common;
+using NuGet.Frameworks;
+using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
@@ -25,8 +27,8 @@ public sealed class PackageHelper
     /// </summary>
     public PackageHelper()
     {
-        _logger = NullLogger.Instance;
-        _cache = new SourceCacheContext();
+        _logger     = NullLogger.Instance;
+        _cache      = new SourceCacheContext();
         _repository = Repository.Factory.GetCoreV3("https://api.nuget.org/v3/index.json");
     }
 
@@ -83,6 +85,57 @@ public sealed class PackageHelper
             cancellationToken);
 
         return results.Select(p => p.Identity.Id.ToString());
+    }
+
+    /// <summary>
+    /// Returns a list of all вependencies of the package.
+    /// </summary>
+    /// <param name="packageName">Package name.</param>
+    /// <param name="packageVersion">Package version.</param>
+    /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+    /// <returns>List of dependencies.</returns>
+    public async Task<IEnumerable<PackageIdentity>> GetAllPackageDependenciesAsync(
+        string packageName,
+        string packageVersion,
+        CancellationToken cancellationToken)
+    {
+        NuGetVersion version = NuGetVersion.Parse(packageVersion);
+
+        return await GetAllPackageDependenciesAsync(packageName, version, cancellationToken);
+    }
+
+    /// <summary>
+    /// Returns a list of all вependencies of the package.
+    /// </summary>
+    /// <param name="packageName">Package name.</param>
+    /// <param name="packageVersion">Package version.</param>
+    /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+    /// <returns>List of dependencies.</returns>
+    public async Task<IEnumerable<PackageIdentity>> GetAllPackageDependenciesAsync(
+        string packageName,
+        NuGetVersion packageVersion,
+        CancellationToken cancellationToken)
+    {
+        DependencyInfoResource dependencyInfoResource = await _repository.GetResourceAsync<DependencyInfoResource>();
+        SourcePackageDependencyInfo dependencyInfo    = await dependencyInfoResource.ResolvePackage(
+            new PackageIdentity(packageName, packageVersion),
+            NuGetFramework.AnyFramework,
+            _cache,
+            _logger,
+            cancellationToken);
+
+        List<PackageIdentity> dependencies = [
+            new PackageIdentity(dependencyInfo.Id,
+            dependencyInfo.Version)];
+
+        foreach (PackageDependency dependency in dependencyInfo.Dependencies) {
+            dependencies.AddRange(await GetAllPackageDependenciesAsync(
+                dependency.Id,
+                dependency.VersionRange.MinVersion!,
+                cancellationToken));
+        }
+
+        return dependencies;
     }
 
     #endregion Public Methods
