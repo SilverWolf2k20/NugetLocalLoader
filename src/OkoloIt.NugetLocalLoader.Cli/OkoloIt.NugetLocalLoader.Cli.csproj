@@ -12,6 +12,7 @@
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>llnuget</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
+        <Version>0.1.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
