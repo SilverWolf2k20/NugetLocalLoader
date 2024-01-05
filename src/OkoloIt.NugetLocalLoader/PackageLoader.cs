@@ -57,7 +57,7 @@ public sealed class PackageLoader
     /// Downloads the specified version of the package to the folder.
     /// </summary>
     /// <param name="packageName">Target package name.</param>
-    /// <param name="version">Target version.</param>
+    /// <param name="packageVersion">Target version.</param>
     /// <param name="path">Target path.</param>
     /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
     /// <returns>Represents an asynchronous operation.</returns>
