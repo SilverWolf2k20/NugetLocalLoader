@@ -1,6 +1,6 @@
 # NugetLocalLoader
 
-![coverage](https://img.shields.io/badge/version-0.1.0--alpha-blue)
+![coverage](https://img.shields.io/badge/version-0.2.0--alpha-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/SilverWolf2k20/OkoloIt.Utilities.Logging/blob/master/LICENSE.md)
 
 **NugetLocalLoader - это программа для загрузки Nuget пакетов в локальную папку со всеми зависимостями.**
@@ -12,13 +12,13 @@
 ## Установка
 
 ``` batch
-dotnet tool install --global --add-source .\nupkg llnuget --version 0.1.0
+dotnet tool install llnuget --global --add-source .\nupkg --version 0.2.0
 ```
 
 ## Использование
 
 ``` batch
-:: Поиск пакетов6
+:: Поиск пакетов
 llnuget find packages <package_name> -c <count>
 
 :: Поиск версий
@@ -29,6 +29,9 @@ llnuget find deps <package_name> -v <version>
 
 :: Загрузка пакета
 llnuget load package <package_name> -v <version> -p <path>
+
+:: Загрузка пакета со всеми зависимостями
+llnuget load package <package_name> -v <version> -p <path> -с
 ```
 
 ## Дорожная карта
@@ -39,7 +42,7 @@ llnuget load package <package_name> -v <version> -p <path>
 - [X] Полноценное Cli приложение
 - [X] Поиск зависимостей пакета
 - [ ] Загрузка всех зависимостей пакета
-- [ ] Фильтрация пакета на основе списка существующих
+- [ ] Фильтрация зависимостей на основе списка существующих
 - [ ] Геренераторы списков существующих пакетов
 - [ ] Полноценное GUI приложение
 
