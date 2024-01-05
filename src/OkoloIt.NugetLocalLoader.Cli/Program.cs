@@ -4,7 +4,7 @@ using OkoloIt.NugetLocalLoader.Cli.Commands;
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("0.1.0.*")]
+[assembly: AssemblyVersion("0.2.0.*")]
 
 try {
     await Cli.RunAsync<RootCliCommand>(args);

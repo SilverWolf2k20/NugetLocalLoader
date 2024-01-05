@@ -3,6 +3,8 @@ using System.CommandLine.Invocation;
 
 using DotMake.CommandLine;
 
+using NuGet.Packaging.Core;
+
 using OkoloIt.NugetLocalLoader.Core;
 
 namespace OkoloIt.NugetLocalLoader.Cli.Commands.Load.Subcommands;
@@ -14,6 +16,9 @@ namespace OkoloIt.NugetLocalLoader.Cli.Commands.Load.Subcommands;
 public sealed class LoadPackageSubcommand
 {
     #region Public Properties
+
+    [CliOption(Description = "Dependency loading flag.")]
+    public bool CanLoadDependencies { get; set; } = false;
 
     [CliOption(Description = "Target version.")]
     public string Version { get; set; } = string.Empty;
@@ -30,49 +35,81 @@ public sealed class LoadPackageSubcommand
 
     public async Task RunAsync(InvocationContext context)
     {
-        if (string.IsNullOrWhiteSpace(Version))
-            Version = await GetLatestVesionAsync(
-                PackageName,
-                context.GetCancellationToken());
+        CancellationToken cancellationToken = context.GetCancellationToken();
+
+        await ConfiguteVersion(cancellationToken);
+        ConfigutePath();
 
         context.Console.WriteLine($"Select version: {Version}");
-
-        if (string.IsNullOrWhiteSpace(Path))
-            Path = GetDefaultPath();
-
-        context.Console.WriteLine($"Loading...");
+        context.Console.WriteLine($"Loading {PackageName}");
 
         PackageLoader packageLoader = new();
         string filePath = await packageLoader.LoadPackageAsync(
             PackageName,
             Version,
             Path,
-            context.GetCancellationToken());
+            cancellationToken);
 
-        context.Console.WriteLine($"Downloaded to:  {filePath}");
+        if (CanLoadDependencies == false) {
+            context.Console.WriteLine($"Downloaded package to:  {filePath}");
+            return;
+        }
+
+        IList<PackageIdentity> dependencies = await GetDependencies(cancellationToken);
+
+        for (var i = 0; i < dependencies.Count; ++i) {
+            if (cancellationToken.IsCancellationRequested)
+                break;
+
+            PackageIdentity dependence = dependencies[i];
+            context.Console.WriteLine($"Load ({i + 1}/{dependencies.Count}):  {dependence.Id} [{dependence.Version}]");
+
+            _ = await packageLoader.LoadPackageAsync(
+                dependence.Id,
+                dependence.Version,
+                Path,
+                cancellationToken);
+        }
+
+        context.Console.WriteLine($"Downloaded packages to:  {Path}");
     }
 
     #endregion Public Methods
 
     #region Private Methods
 
-    private static string GetDefaultPath()
+    private async Task<IList<PackageIdentity>> GetDependencies(CancellationToken cancellationToken)
     {
-        string profilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        return System.IO.Path.Combine(profilePath, "Downloads");
+        PackageHelper packageManager = new();
+        IEnumerable<PackageIdentity> dependencies = await packageManager.GetAllPackageDependenciesAsync(
+            PackageName,
+            Version,
+            cancellationToken);
+
+        return dependencies.ToList();
     }
 
-    private static async Task<string> GetLatestVesionAsync(
-        string packageName,
-        CancellationToken cancellationToken)
+    private async Task ConfiguteVersion(CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(Version) == false)
+            return;
+
         PackageHelper packageHelper = new();
         IEnumerable<string> versions = await packageHelper.GetAllPackageVersionsAsync(
-            packageName,
+            PackageName,
             count: 1,
             cancellationToken);
 
-        return versions.First();
+        Version = versions.First();
+    }
+
+    private void ConfigutePath()
+    {
+        if (string.IsNullOrWhiteSpace(Path) == false)
+            return;
+
+        string profilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        Path = System.IO.Path.Combine(profilePath, "Downloads");
     }
 
     #endregion Private Methods
