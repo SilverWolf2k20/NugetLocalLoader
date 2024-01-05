@@ -17,7 +17,9 @@ public sealed class LoadPackageSubcommand
 {
     #region Public Properties
 
-    [CliOption(Description = "Dependency loading flag.")]
+    [CliOption(
+        Description = "Dependency loading flag.",
+        Arity = CliArgumentArity.Zero)]
     public bool CanLoadDependencies { get; set; } = false;
 
     [CliOption(Description = "Target version.")]
