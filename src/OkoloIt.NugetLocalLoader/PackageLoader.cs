@@ -49,9 +49,26 @@ public sealed class PackageLoader
         string path,
         CancellationToken cancellationToken)
     {
+        NuGetVersion packageVersion = new(version);
+        return await LoadPackageAsync(packageName , packageVersion, path, cancellationToken);
+    }
+
+    /// <summary>
+    /// Downloads the specified version of the package to the folder.
+    /// </summary>
+    /// <param name="packageName">Target package name.</param>
+    /// <param name="version">Target version.</param>
+    /// <param name="path">Target path.</param>
+    /// <param name="cancellationToken">Propagates notification that operations should be canceled.</param>
+    /// <returns>Represents an asynchronous operation.</returns>
+    public async Task<string> LoadPackageAsync(
+        string packageName,
+        NuGetVersion packageVersion,
+        string path,
+        CancellationToken cancellationToken)
+    {
         FindPackageByIdResource resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
 
-        NuGetVersion packageVersion = new(version);
         using MemoryStream packageStream = new();
 
         await resource.CopyNupkgToStreamAsync(
@@ -65,7 +82,7 @@ public sealed class PackageLoader
         using PackageArchiveReader packageReader = new(packageStream);
         NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
 
-        string filePath = Path.Combine(path, $"{packageName}.{version}.nupkg");
+        string filePath = Path.Combine(path, $"{packageName}.{packageVersion}.nupkg");
 
         packageStream.CopyToFile(Path.Combine(path, filePath));
 
