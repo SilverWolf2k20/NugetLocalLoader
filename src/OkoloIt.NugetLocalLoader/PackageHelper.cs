@@ -1,4 +1,6 @@
-﻿using NuGet.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using NuGet.Common;
 using NuGet.Frameworks;
 using NuGet.Packaging.Core;
 using NuGet.Protocol;
@@ -135,7 +137,9 @@ public sealed class PackageHelper
                 cancellationToken));
         }
 
-        return dependencies;
+        //PackageDependencyComparer dependencyComparer = new();
+        return dependencies.Distinct()
+            .ToList();
     }
 
     #endregion Public Methods
