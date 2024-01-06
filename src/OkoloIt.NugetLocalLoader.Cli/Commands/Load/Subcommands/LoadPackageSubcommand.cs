@@ -139,7 +139,7 @@ public sealed partial class LoadPackageSubcommand
         foreach (string path in paths) {
             string packageFullName = Path.GetFileNameWithoutExtension(path);
 
-            string packageName    = PackageNameRegex().Match(packageFullName).Groups[1].Value;
+            string packageName    = GeneratePackageNameRegex().Match(packageFullName).Groups[1].Value;
             string packageVersion = packageFullName[(packageName.Length + 1)..];
 
             existingPackages.Add(new PackageIdentity(packageName, new NuGetVersion(packageVersion)));
@@ -149,7 +149,7 @@ public sealed partial class LoadPackageSubcommand
     }
 
     [GeneratedRegex(@"(\D+)[.]")]
-    private static partial Regex PackageNameRegex();
+    private static partial Regex GeneratePackageNameRegex();
 
     #endregion Private Methods
 }
