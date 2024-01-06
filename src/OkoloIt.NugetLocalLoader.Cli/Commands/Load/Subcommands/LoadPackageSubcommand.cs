@@ -1,9 +1,11 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Text.RegularExpressions;
 
 using DotMake.CommandLine;
 
 using NuGet.Packaging.Core;
+using NuGet.Versioning;
 
 using OkoloIt.NugetLocalLoader.Core;
 
@@ -13,7 +15,7 @@ namespace OkoloIt.NugetLocalLoader.Cli.Commands.Load.Subcommands;
     Name = "package",
     Description = "Displays a list of versions for this package.",
     Parent = typeof(LoadCommand))]
-public sealed class LoadPackageSubcommand
+public sealed partial class LoadPackageSubcommand
 {
     #region Public Properties
 
@@ -22,11 +24,17 @@ public sealed class LoadPackageSubcommand
         Arity = CliArgumentArity.Zero)]
     public bool CanLoadDependencies { get; set; } = false;
 
+    [CliOption(
+        Description = "Flag to ignore existing packets.",
+        Aliases = ["-i"],
+        Arity = CliArgumentArity.Zero)]
+    public bool CanIgnoreExisting { get; set; } = false;
+
     [CliOption(Description = "Target version.")]
     public string Version { get; set; } = string.Empty;
 
-    [CliOption(Description = "Target path.")]
-    public string Path { get; set; } = string.Empty;
+    [CliOption(Description = "Directory where packages are stored.")]
+    public string PackageFolder { get; set; } = string.Empty;
 
     [CliArgument(Description = "Target package name.")]
     public string PackageName { get; set; } = string.Empty;
@@ -49,7 +57,7 @@ public sealed class LoadPackageSubcommand
         string filePath = await packageLoader.LoadPackageAsync(
             PackageName,
             Version,
-            Path,
+            PackageFolder,
             cancellationToken);
 
         if (CanLoadDependencies == false) {
@@ -58,6 +66,11 @@ public sealed class LoadPackageSubcommand
         }
 
         IList<PackageIdentity> dependencies = await GetDependencies(cancellationToken);
+
+        if (CanIgnoreExisting) {
+            IEnumerable<PackageIdentity> existingPackages = GetListOfExistingPackages();
+            dependencies = dependencies.Except(existingPackages).ToList();
+        }
 
         for (var i = 0; i < dependencies.Count; ++i) {
             if (cancellationToken.IsCancellationRequested)
@@ -69,11 +82,11 @@ public sealed class LoadPackageSubcommand
             _ = await packageLoader.LoadPackageAsync(
                 dependence.Id,
                 dependence.Version,
-                Path,
+                PackageFolder,
                 cancellationToken);
         }
 
-        context.Console.WriteLine($"Downloaded packages to:  {Path}");
+        context.Console.WriteLine($"Downloaded packages to:  {PackageFolder}");
     }
 
     #endregion Public Methods
@@ -107,12 +120,36 @@ public sealed class LoadPackageSubcommand
 
     private void ConfigutePath()
     {
-        if (string.IsNullOrWhiteSpace(Path) == false)
+        if (string.IsNullOrWhiteSpace(PackageFolder) == false)
             return;
 
         string profilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        Path = System.IO.Path.Combine(profilePath, "Downloads");
+        PackageFolder = Path.Combine(profilePath, "Downloads");
     }
+
+    private IEnumerable<PackageIdentity> GetListOfExistingPackages()
+    {
+        if (Directory.Exists(PackageFolder) == false)
+            return Enumerable.Empty<PackageIdentity>();
+
+        string[] paths = Directory.GetFiles(PackageFolder);
+
+        List<PackageIdentity> existingPackages = new(paths.Length);
+
+        foreach (string path in paths) {
+            string packageFullName = Path.GetFileNameWithoutExtension(path);
+
+            string packageName    = PackageNameRegex().Match(packageFullName).Groups[1].Value;
+            string packageVersion = packageFullName[(packageName.Length + 1)..];
+
+            existingPackages.Add(new PackageIdentity(packageName, new NuGetVersion(packageVersion)));
+        }
+
+        return existingPackages;
+    }
+
+    [GeneratedRegex(@"(\D+)[.]")]
+    private static partial Regex PackageNameRegex();
 
     #endregion Private Methods
 }
