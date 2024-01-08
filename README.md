@@ -1,6 +1,6 @@
 # NugetLocalLoader
 
-![coverage](https://img.shields.io/badge/version-0.3.0--beta-blue)
+![coverage](https://img.shields.io/badge/version-0.4.0--beta-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/SilverWolf2k20/OkoloIt.Utilities.Logging/blob/master/LICENSE.md)
 
 **NugetLocalLoader - это программа для загрузки Nuget пакетов в локальную папку со всеми зависимостями.**
@@ -12,29 +12,56 @@
 ## Установка
 
 ``` batch
-dotnet tool install llnuget --global --prerelease --add-source .\nupkg --version 0.3.0-beta
+dotnet tool install llnuget --global --prerelease --add-source .\nupkg --version 0.4.0-beta
 ```
 
 ## Использование
 
+### Команда `find`
+
+Выполняет поиск данных о пакетах.
+
+Подкоманда `packages` выполняет поиск пакетов.
+
 ``` batch
-:: Поиск пакетов.
-llnuget find packages <package_name> -c <count>
+:: -c, --count <count>  Количество выводимых записей в консоль (По умолчанию 10).
+llnuget find packages <package_name>
+```
+Подкоманда `versions` выполняет поиск версий пакета.
 
-:: Поиск версий.
-llnuget find versions <package_name> -c <count>
+``` batch
+:: -c, --count <count>  Количество выводимых записей в консоль (По умолчанию 10).
+llnuget find versions <package_name>
+```
 
-:: Поиск зависимостей.
-llnuget find deps <package_name> -v <version>
+Подкоманда `deps` выполняет поиск зависимостей пакета.
 
-:: Загрузка пакета.
-llnuget load package <package_name> -v <version> -p <path>
+``` batch
+:: -v, --version <version>  Версия пакета.
+llnuget find deps <package_name>
+```
 
-:: Загрузка пакета со всеми зависимостями.
-llnuget load package <package_name> -v <version> -p <path> -с
+Подкоманда `storage` выполняет поиск сущесвующих пакетов в указанной директории.
 
-:: Загрузка пакета со всеми зависимостями и игнорированием пакетов, которые существуют.
-llnuget load package <package_name> -v <version> -p <path> -с -i
+``` batch
+:: -c, --count <count>  Количество выводимых записей в консоль (По умолчанию 10).
+:: -s, --save-to-file <save-to-file> Сохраняет список в файл.
+llnuget find storage <package_folder>
+```
+
+### Команда `load`
+
+Выполняет загрузку пакетов.
+
+Подкоманда `package` выполняет загрузку пакета.
+
+``` batch
+:: -c, --can-load-dependencies Флаг загрузки зависимостей пакета.
+:: -i, --can-ignore-existing Флаг игнорирования существующих пакетов.
+:: -v, --version <version> Версия пакета.
+:: -p, --package-folder <package-folder> Директория с пакетами.
+:: -e, --existing-package-list <existing-package-list> Файл со списком существующих пакетов.
+llnuget load package <package_name>
 ```
 
 ## Дорожная карта
@@ -46,7 +73,7 @@ llnuget load package <package_name> -v <version> -p <path> -с -i
 - [X] Поиск зависимостей пакета
 - [X] Загрузка всех зависимостей пакета
 - [X] Фильтрация зависимостей на основе списка существующих
-- [ ] Геренераторы списков существующих пакетов
+- [X] Геренераторы списков существующих пакетов
 - [ ] Написание тестов и исправление вылетов
 - [ ] Полноценное GUI приложение
 
