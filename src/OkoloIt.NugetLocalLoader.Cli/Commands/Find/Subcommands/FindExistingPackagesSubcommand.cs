@@ -30,7 +30,7 @@ public sealed class FindExistingPackagesSubcommand
         if (Directory.Exists(PackageFolder) == false)
             context.Console.WriteLine("Directory not found.");
 
-        string[] files = Directory.GetFiles(PackageFolder);
+        string[] files = Directory.GetFiles(PackageFolder, "*.nupkg");
 
         if (string.IsNullOrWhiteSpace(SaveToFile) == false) {
             File.WriteAllLines(SaveToFile, files);
