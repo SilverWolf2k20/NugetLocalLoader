@@ -36,6 +36,9 @@ public sealed partial class LoadPackageSubcommand
     [CliOption(Description = "Directory where packages are stored.")]
     public string PackageFolder { get; set; } = string.Empty;
 
+    [CliOption(Description = "Path to the file with the list of existing packages.")]
+    public string ExistingPackageList { get; set; } = string.Empty;
+
     [CliArgument(Description = "Target package name.")]
     public string PackageName { get; set; } = string.Empty;
 
@@ -68,7 +71,7 @@ public sealed partial class LoadPackageSubcommand
         IList<PackageIdentity> dependencies = await GetDependencies(cancellationToken);
 
         if (CanIgnoreExisting) {
-            IEnumerable<PackageIdentity> existingPackages = GetListOfExistingPackages();
+            IEnumerable<PackageIdentity> existingPackages = await GetListOfExistingPackages(cancellationToken);
             dependencies = dependencies.Except(existingPackages).ToList();
         }
 
@@ -127,12 +130,16 @@ public sealed partial class LoadPackageSubcommand
         PackageFolder = Path.Combine(profilePath, "Downloads");
     }
 
-    private IEnumerable<PackageIdentity> GetListOfExistingPackages()
+    private async Task<IEnumerable<PackageIdentity>> GetListOfExistingPackages(
+        CancellationToken cancellationToken)
     {
-        if (Directory.Exists(PackageFolder) == false)
-            return Enumerable.Empty<PackageIdentity>();
+        string[] paths;
 
-        string[] paths = Directory.GetFiles(PackageFolder);
+        if (    string.IsNullOrWhiteSpace(ExistingPackageList)
+             || File.Exists(ExistingPackageList) == false)
+            paths = Directory.GetFiles(PackageFolder, "*.nupkg");
+        else
+            paths = await File.ReadAllLinesAsync(ExistingPackageList, cancellationToken);
 
         List<PackageIdentity> existingPackages = new(paths.Length);
 
