@@ -19,6 +19,9 @@ public sealed class FindExistingPackagesSubcommand
     [CliOption(Description = "Saves a list of installed packages to a file at the specified path.")]
     public string SaveToFile { get; set; } = string.Empty;
 
+    [CliOption(Description = "Number of output records from the existing packages.")]
+    public int Count { get; set; } = 10;
+
     #endregion Public Properties
 
     #region Public Methods
@@ -38,11 +41,11 @@ public sealed class FindExistingPackagesSubcommand
             return;
         }
 
-        foreach (string file in files) {
+        for (int i = 0; i < files.Length && i < Count; ++i) {
             if (context.GetCancellationToken().IsCancellationRequested)
                 break;
 
-            context.Console.WriteLine(file);
+            context.Console.WriteLine(files[i]);
         }
     }
 
