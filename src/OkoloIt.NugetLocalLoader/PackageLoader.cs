@@ -1,4 +1,6 @@
-﻿using NuGet.Common;
+﻿using System;
+
+using NuGet.Common;
 using NuGet.Packaging;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
@@ -49,6 +51,8 @@ public sealed class PackageLoader
         string path,
         CancellationToken cancellationToken)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(version, nameof(version));
+
         NuGetVersion packageVersion = new(version);
         return await LoadPackageAsync(packageName , packageVersion, path, cancellationToken);
     }
@@ -67,6 +71,11 @@ public sealed class PackageLoader
         string path,
         CancellationToken cancellationToken)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(packageName, nameof(packageName));
+
+        if (Directory.Exists(path) == false)
+            throw new DirectoryNotFoundException($"There is no directory found at path {path}.");
+
         FindPackageByIdResource resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
 
         using MemoryStream packageStream = new();
