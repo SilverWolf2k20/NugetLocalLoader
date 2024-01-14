@@ -13,7 +13,13 @@ public class RootCliCommand
     public void Run(InvocationContext context)
     {
         context.Console.WriteLine("<Okolo IT>\n");
-        context.Console.WriteLine("Hello, this is a NugetLocalLoader!");
+        context.Console.WriteLine("""
+            ╔╗  ╔╗    ╔═╦╗ ╔╗╔╗ ╔══╗ ╔══╗ ╔══╗
+            ║║  ║║    ║║║║ ║║║║ ║╔═╣ ║ ═╣ ╚╗╔╝
+            ║╚╗ ║╚╗   ║║║║ ║╚╝║ ║╚╗║ ║ ═╣  ║║
+            ╚═╝ ╚═╝   ╚╩═╝ ╚══╝ ╚══╝ ╚══╝  ╚╝
+            """);
+        context.Console.WriteLine("\nHello, this is a NugetLocalLoader!\n");
     }
 
     #endregion Public Methods
