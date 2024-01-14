@@ -13,19 +13,26 @@ internal class PackageHelperTests
 
         // Assert
         Assert.That(
-            () => packageHelper.GetAllPackageVersionsAsync("", 0, CancellationToken.None).Wait(),
+            () => packageHelper.GetAllPackageVersionsAsync(
+                string.Empty,
+                default,
+                CancellationToken.None).Wait(),
             Throws.Exception);
     }
 
-    [Test]
-    public void GetAllPackageVersionsAsync_IncorrectCount_Exception()
+    [TestCase(-10)]
+    [TestCase(0)]
+    public void GetAllPackageVersionsAsync_IncorrectCount_Exception(int count)
     {
         // Arrange
         PackageHelper packageHelper = new();
         
         // Assert
         Assert.That(
-            () => packageHelper.GetAllPackageVersionsAsync("NUnit", -10, CancellationToken.None).Wait(),
+            () => packageHelper.GetAllPackageVersionsAsync(
+                "NUnit",
+                count,
+                CancellationToken.None).Wait(),
             Throws.Exception);
     }
 
@@ -54,19 +61,26 @@ internal class PackageHelperTests
 
         // Assert
         Assert.That(
-            () => packageHelper.GetPackagesAsync("", 0, CancellationToken.None).Wait(),
+            () => packageHelper.GetPackagesAsync(
+                string.Empty,
+                default,
+                CancellationToken.None).Wait(),
             Throws.Exception);
     }
 
-    [Test]
-    public void GetPackagesAsync_IncorrectCount_Exception()
+    [TestCase(-10)]
+    [TestCase(0)]
+    public void GetPackagesAsync_IncorrectCount_Exception(int count)
     {
         // Arrange
         PackageHelper packageHelper = new();
 
         // Assert
         Assert.That(
-            () => packageHelper.GetPackagesAsync("NUnit", -10, CancellationToken.None).Wait(),
+            () => packageHelper.GetPackagesAsync(
+                "NUnit",
+                count,
+                CancellationToken.None).Wait(),
             Throws.Exception);
     }
 
@@ -95,7 +109,10 @@ internal class PackageHelperTests
 
         // Assert
         Assert.That(
-            () => packageHelper.GetAllPackageDependenciesAsync("", "", CancellationToken.None).Wait(),
+            () => packageHelper.GetAllPackageDependenciesAsync(
+                string.Empty,
+                string.Empty,
+                CancellationToken.None).Wait(),
             Throws.Exception);
     }
 
@@ -107,7 +124,10 @@ internal class PackageHelperTests
 
         // Assert
         Assert.That(
-            () => packageHelper.GetAllPackageDependenciesAsync("NUnit", "", CancellationToken.None).Wait(),
+            () => packageHelper.GetAllPackageDependenciesAsync(
+                "NUnit",
+                string.Empty,
+                CancellationToken.None).Wait(),
             Throws.Exception);
     }
 
