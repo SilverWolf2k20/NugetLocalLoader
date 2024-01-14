@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{65211D29-118
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3FD9B416-76BC-406E-AB80-153B0AC1DBDF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{36C49E97-059D-4EEC-9BA1-79AA18AAC0C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OkoloIt.NugetLocalLoader.Core.UnitTest", "tests\OkoloIt.NugetLocalLoader.Core.UnitTest\OkoloIt.NugetLocalLoader.Core.UnitTest.csproj", "{39EE322E-3A6B-4879-A948-30756059D71C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{7895D939-96FF-4D67-A529-113B224E26C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7895D939-96FF-4D67-A529-113B224E26C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7895D939-96FF-4D67-A529-113B224E26C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39EE322E-3A6B-4879-A948-30756059D71C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39EE322E-3A6B-4879-A948-30756059D71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39EE322E-3A6B-4879-A948-30756059D71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39EE322E-3A6B-4879-A948-30756059D71C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{03A0BD7C-E1B9-4A5A-AF0F-B8516F802AC2} = {3FD9B416-76BC-406E-AB80-153B0AC1DBDF}
 		{7895D939-96FF-4D67-A529-113B224E26C1} = {3FD9B416-76BC-406E-AB80-153B0AC1DBDF}
+		{39EE322E-3A6B-4879-A948-30756059D71C} = {36C49E97-059D-4EEC-9BA1-79AA18AAC0C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {977F47AE-AEC5-457D-A649-4EB7EEC3D23F}
