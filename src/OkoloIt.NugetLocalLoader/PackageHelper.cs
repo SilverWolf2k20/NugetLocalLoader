@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using NuGet.Common;
+﻿using NuGet.Common;
 using NuGet.Frameworks;
 using NuGet.Packaging.Core;
 using NuGet.Protocol;
@@ -50,6 +48,9 @@ public sealed class PackageHelper
         int count,
         CancellationToken cancellationToken)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(packageName, nameof(packageName));
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(count, 0, nameof(count));
+
         FindPackageByIdResource resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
 
         IEnumerable<NuGetVersion> versions = await resource.GetAllVersionsAsync(
@@ -75,6 +76,9 @@ public sealed class PackageHelper
         int count,
         CancellationToken cancellationToken)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(packageName, nameof(packageName));
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(count, 0, nameof(count));
+
         PackageSearchResource resource = await _repository.GetResourceAsync<PackageSearchResource>();
         SearchFilter searchFilter = new(includePrerelease: true);
 
@@ -101,6 +105,9 @@ public sealed class PackageHelper
         string packageVersion,
         CancellationToken cancellationToken)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(packageName, nameof(packageName));
+        ArgumentException.ThrowIfNullOrWhiteSpace(packageVersion, nameof(packageVersion));
+
         NuGetVersion version = NuGetVersion.Parse(packageVersion);
 
         return await GetAllPackageDependenciesAsync(packageName, version, cancellationToken);
