@@ -17,6 +17,7 @@
 
     <ItemGroup>
         <PackageReference Include="DotMake.CommandLine" Version="1.6.8" />
+        <PackageReference Include="Pastel" Version="4.2.0" />
     </ItemGroup>
 
     <ItemGroup>
