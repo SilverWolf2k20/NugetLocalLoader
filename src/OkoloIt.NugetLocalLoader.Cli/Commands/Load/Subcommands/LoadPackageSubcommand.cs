@@ -13,7 +13,7 @@ namespace OkoloIt.NugetLocalLoader.Cli.Commands.Load.Subcommands;
 
 [CliCommand(
     Name = "package",
-    Description = "Displays a list of versions for this package.",
+    Description = "Downloads the package to the local folder.",
     Parent = typeof(LoadCommand))]
 public sealed partial class LoadPackageSubcommand
 {
