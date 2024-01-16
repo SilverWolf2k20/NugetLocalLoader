@@ -1,6 +1,4 @@
-﻿using System;
-
-using NuGet.Common;
+﻿using NuGet.Common;
 using NuGet.Packaging;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
@@ -26,9 +24,17 @@ public sealed class PackageLoader
     /// <summary>
     /// Creates an instance of the nuget package loader.
     /// </summary>
-    public PackageLoader()
+    public PackageLoader() : this(NullLogger.Instance)
     {
-        _logger = NullLogger.Instance;
+    }
+
+    /// <summary>
+    /// Creates an instance of the nuget package loader.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    public PackageLoader(ILogger logger)
+    {
+        _logger = logger;
         _cache = new SourceCacheContext();
         _repository = Repository.Factory.GetCoreV3("https://api.nuget.org/v3/index.json");
     }

@@ -25,9 +25,17 @@ public sealed class PackageHelper
     /// <summary>
     /// Creates an instance of the nuget package helper.
     /// </summary>
-    public PackageHelper()
+    public PackageHelper() : this(NullLogger.Instance)
     {
-        _logger     = NullLogger.Instance;
+    }
+
+    /// <summary>
+    /// Creates an instance of the nuget package helper.
+    /// </summary>
+    /// <param name="logger">Logger instance.</param>
+    public PackageHelper(ILogger logger)
+    {
+        _logger     = logger;
         _cache      = new SourceCacheContext();
         _repository = Repository.Factory.GetCoreV3("https://api.nuget.org/v3/index.json");
     }
@@ -144,7 +152,6 @@ public sealed class PackageHelper
                 cancellationToken));
         }
 
-        //PackageDependencyComparer dependencyComparer = new();
         return dependencies.Distinct()
             .ToList();
     }
