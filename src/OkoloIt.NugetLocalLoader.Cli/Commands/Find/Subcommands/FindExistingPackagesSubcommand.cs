@@ -14,7 +14,7 @@ public sealed class FindExistingPackagesSubcommand
     #region Public Properties
 
     [CliArgument(Description = "Directory where packages are stored.")]
-    public string PackageFolder { get; set; } = string.Empty;
+    public required string PackageFolder { get; set; }
 
     [CliOption(Description = "Saves a list of installed packages to a file at the specified path.")]
     public string SaveToFile { get; set; } = string.Empty;

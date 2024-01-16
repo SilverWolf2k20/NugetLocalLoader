@@ -19,7 +19,7 @@ public sealed class FindPackageVersionsSubcommand
     public int Count { get; set; } = 10;
 
     [CliArgument(Description = "Target package name.")]
-    public string PackageName { get; set; } = string.Empty;
+    public required string PackageName { get; set; }
 
     #endregion Public Properties
 

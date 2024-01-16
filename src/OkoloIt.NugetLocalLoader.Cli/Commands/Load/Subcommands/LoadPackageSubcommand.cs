@@ -40,7 +40,7 @@ public sealed partial class LoadPackageSubcommand
     public string ExistingPackageList { get; set; } = string.Empty;
 
     [CliArgument(Description = "Target package name.")]
-    public string PackageName { get; set; } = string.Empty;
+    public required string PackageName { get; set; }
 
     #endregion Public Properties
 

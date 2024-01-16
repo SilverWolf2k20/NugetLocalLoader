@@ -21,7 +21,7 @@ public sealed class FindPackageDependenciesSubcommand
     public string Version { get; set; } = string.Empty;
 
     [CliArgument(Description = "Target package name.")]
-    public string PackageName { get; set; } = string.Empty;
+    public required string PackageName { get; set; }
 
     #endregion Public Properties
 
