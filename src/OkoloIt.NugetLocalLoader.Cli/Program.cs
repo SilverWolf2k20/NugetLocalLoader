@@ -13,6 +13,6 @@ catch (OperationCanceledException) {
     Console.WriteLine("The command was canceled.");
 }
 catch (Exception ex) {
-    Console.WriteLine("Unregistered exception.");
-    Console.WriteLine(ex);
+    Console.Error.WriteLine("Unregistered exception.");
+    Console.Error.WriteLine(ex);
 }
