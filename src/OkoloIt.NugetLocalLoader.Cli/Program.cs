@@ -2,24 +2,24 @@
 
 using OkoloIt.NugetLocalLoader.Cli.Commands;
 using OkoloIt.NugetLocalLoader.Cli.Exceptions;
+using OkoloIt.NugetLocalLoader.Cli.Helpers;
 
 using Pastel;
 
-using System.Drawing;
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.0.0.*")]
+[assembly: AssemblyVersion("1.0.1.*")]
 
 try {
     await Cli.RunAsync<RootCliCommand>(args);
 }
 catch (OperationCanceledException) {
-    Console.WriteLine("The command was canceled.".Pastel(Color.FromArgb(241, 210, 46)));
+    Console.WriteLine("The command was canceled.".Pastel(CliColors.Warning));
 }
 catch (NotMandatoryCommandException ex) {
-    Console.Error.WriteLine(ex.Message.Pastel(Color.FromArgb(158, 45, 34)));
+    Console.Error.WriteLine(ex.Message.Pastel(CliColors.Error));
 }
 catch (Exception ex) {
-    Console.Error.WriteLine("Unregistered exception.".Pastel(Color.FromArgb(158, 45, 34)));
-    Console.Error.WriteLine(ex.ToString().Pastel(Color.FromArgb(158, 45, 34)));
+    Console.Error.WriteLine("Unregistered exception.".Pastel(CliColors.Error));
+    Console.Error.WriteLine(ex.ToString().Pastel(CliColors.Error));
 }

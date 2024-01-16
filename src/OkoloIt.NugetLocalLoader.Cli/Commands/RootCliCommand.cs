@@ -1,8 +1,9 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Invocation;
-using System.Drawing;
 
 using DotMake.CommandLine;
+
+using OkoloIt.NugetLocalLoader.Cli.Helpers;
 
 using Pastel;
 
@@ -22,7 +23,7 @@ public class RootCliCommand
             | |   | |   |  \| | | | | |  _|  _|   | |
             | |___| |___| |\  | |_| | |_| | |___  | |
             |_____|_____|_| \_|\___/ \____|_____| |_|
-            """.Pastel(Color.FromArgb(0, 72, 128)));
+            """.Pastel(CliColors.Information));
         context.Console.WriteLine("\nHello, this is a NugetLocalLoader!");
         context.Console.WriteLine("URL: https://github.com/SilverWolf2k20/NugetLocalLoader");
     }
