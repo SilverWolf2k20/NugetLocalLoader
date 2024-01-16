@@ -1,7 +1,8 @@
-﻿using System.CommandLine;
-using System.CommandLine.Invocation;
+﻿using System.CommandLine.Invocation;
 
 using DotMake.CommandLine;
+
+using OkoloIt.NugetLocalLoader.Cli.Exceptions;
 
 namespace OkoloIt.NugetLocalLoader.Cli.Commands.Load;
 
@@ -15,7 +16,7 @@ public sealed class LoadCommand
 
     public void Run(InvocationContext context)
     {
-        context.Console.WriteLine("Enter the name of the subcommand or call help (-h; --help).");
+        throw new NotMandatoryCommandException("The mandatory command is not specified.");
     }
 
     #endregion Public Methods
