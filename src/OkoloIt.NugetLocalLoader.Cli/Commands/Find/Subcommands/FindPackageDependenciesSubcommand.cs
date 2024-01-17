@@ -37,8 +37,8 @@ public sealed class FindPackageDependenciesSubcommand
         context.Console.WriteLine($"Select version: {Version}");
         context.Console.WriteLine($"Loading...");
 
-        PackageHelper packageManager = new();
-        IEnumerable<PackageIdentity> dependencies = await packageManager.GetAllPackageDependenciesAsync(
+        PackageHelper packageHelper = new();
+        IEnumerable<PackageIdentity> dependencies = await packageHelper.GetAllPackageDependenciesAsync(
             PackageName,
             Version,
             context.GetCancellationToken());
