@@ -12,17 +12,22 @@ internal static class CliColors
     /// <summary>
     /// Error text color.
     /// </summary>
-    internal static Color Error => Color.FromArgb(182, 0, 20);
+    internal static Color Error => Color.Red;
 
     /// <summary>
     /// Information text color.
     /// </summary>
-    internal static Color Information => Color.FromArgb(0, 72, 128);
+    internal static Color Information => Color.LightBlue;
+
+    /// <summary>
+    /// Trace text color.
+    /// </summary>
+    internal static Color Trace => Color.Green;
 
     /// <summary>
     /// Warning text color.
     /// </summary>
-    internal static Color Warning => Color.FromArgb(241, 210, 46);
+    internal static Color Warning => Color.Yellow;
 
     #endregion Internal Properties
 }

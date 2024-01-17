@@ -23,7 +23,7 @@ public class RootCliCommand
             | |   | |   |  \| | | | | |  _|  _|   | |
             | |___| |___| |\  | |_| | |_| | |___  | |
             |_____|_____|_| \_|\___/ \____|_____| |_|
-            """.Pastel(CliColors.Information));
+            """.Pastel(CliColors.Trace));
         context.Console.WriteLine("\nHello, this is a NugetLocalLoader!");
         context.Console.WriteLine("URL: https://github.com/SilverWolf2k20/NugetLocalLoader");
     }
