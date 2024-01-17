@@ -5,6 +5,6 @@
 /// </summary>
 /// <param name="message">Exception message.</param>
 internal sealed class NotMandatoryCommandException(string message) 
-    : Exception(message)
+    : NugetLocalLoaderExceptionBase(message)
 {
 }

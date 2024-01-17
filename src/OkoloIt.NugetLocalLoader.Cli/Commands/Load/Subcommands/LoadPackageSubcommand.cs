@@ -5,8 +5,10 @@ using System.Text.RegularExpressions;
 using DotMake.CommandLine;
 
 using NuGet.Packaging.Core;
+using NuGet.Protocol;
 using NuGet.Versioning;
 
+using OkoloIt.NugetLocalLoader.Cli.Exceptions;
 using OkoloIt.NugetLocalLoader.Core;
 
 namespace OkoloIt.NugetLocalLoader.Cli.Commands.Load.Subcommands;
@@ -52,6 +54,9 @@ public sealed partial class LoadPackageSubcommand
 
         await ConfiguteVersion(cancellationToken);
         ConfigutePath();
+
+        if (string.IsNullOrEmpty(Version))
+            throw new PackageNotFoundException(PackageName);
 
         context.Console.WriteLine($"Select version: {Version}");
         context.Console.WriteLine($"Loading {PackageName}");
@@ -118,7 +123,8 @@ public sealed partial class LoadPackageSubcommand
             count: 1,
             cancellationToken);
 
-        Version = versions.First();
+        if (versions.Any())
+            Version = versions.First();
     }
 
     private void ConfigutePath()

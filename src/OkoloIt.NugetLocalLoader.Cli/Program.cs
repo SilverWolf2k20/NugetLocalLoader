@@ -16,7 +16,7 @@ try {
 catch (OperationCanceledException) {
     Console.WriteLine("The command was canceled.".Pastel(CliColors.Warning));
 }
-catch (NotMandatoryCommandException ex) {
+catch (NugetLocalLoaderExceptionBase ex) {
     Console.Error.WriteLine(ex.Message.Pastel(CliColors.Error));
 }
 catch (Exception ex) {
