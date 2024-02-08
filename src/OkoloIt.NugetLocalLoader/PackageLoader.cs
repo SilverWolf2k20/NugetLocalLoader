@@ -1,5 +1,4 @@
 ﻿using NuGet.Common;
-using NuGet.Packaging;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
@@ -60,7 +59,7 @@ public sealed class PackageLoader
         ArgumentException.ThrowIfNullOrWhiteSpace(version, nameof(version));
 
         NuGetVersion packageVersion = new(version);
-        return await LoadPackageAsync(packageName , packageVersion, path, cancellationToken);
+        return await LoadPackageAsync(packageName, packageVersion, path, cancellationToken);
     }
 
     /// <summary>
@@ -82,24 +81,32 @@ public sealed class PackageLoader
         if (Directory.Exists(path) == false)
             throw new DirectoryNotFoundException($"There is no directory found at path {path}.");
 
-        FindPackageByIdResource resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
-
-        using MemoryStream packageStream = new();
-
-        await resource.CopyNupkgToStreamAsync(
-            packageName,
-            packageVersion,
-            packageStream,
+        // Получение метаданных пакета.
+        PackageMetadataResource resource = await _repository.GetResourceAsync<PackageMetadataResource>();
+        IEnumerable<IPackageSearchMetadata> packages = await resource.GetMetadataAsync(
+            "Avalonia",
+            includePrerelease: true,
+            includeUnlisted: false,
             _cache,
             _logger,
             cancellationToken);
 
-        using PackageArchiveReader packageReader = new(packageStream);
-        NuspecReader nuspecReader = await packageReader.GetNuspecReaderAsync(cancellationToken);
+        IPackageSearchMetadata? package = packages.FirstOrDefault(p => p.Identity.Version.Equals(packageVersion));
 
-        string filePath = Path.Combine(path, $"{packageName}.{packageVersion}.nupkg");
+        if (package is null)
+            return "Не удалось скачать пакет.";
 
-        packageStream.CopyToFile(Path.Combine(path, filePath));
+        string filePath = Path.Combine(path, $"{package.Identity.Id}.{package.Identity.Version}.nupkg");
+        using var packageStream = File.OpenWrite(filePath);
+
+        FindPackageByIdResource findPackageByIdResource = await _repository.GetResourceAsync<FindPackageByIdResource>();
+        await findPackageByIdResource.CopyNupkgToStreamAsync(
+            package.Identity.Id,
+            package.Identity.Version,
+            packageStream,
+            _cache,
+            _logger,
+            cancellationToken);
 
         return filePath;
     }
