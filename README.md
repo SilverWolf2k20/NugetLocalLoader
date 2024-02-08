@@ -1,6 +1,6 @@
 # NugetLocalLoader
 
-![coverage](https://img.shields.io/badge/version-1.0.0-blue)
+![coverage](https://img.shields.io/badge/version-1.1.0-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/SilverWolf2k20/OkoloIt.Utilities.Logging/blob/master/LICENSE.md)
 
 **NugetLocalLoader - это программа для загрузки Nuget пакетов в локальную папку со всеми зависимостями.**
