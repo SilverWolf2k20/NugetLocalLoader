@@ -8,7 +8,7 @@ using Pastel;
 
 using System.Reflection;
 
-[assembly: AssemblyVersion("1.0.1.*")]
+[assembly: AssemblyVersion("1.1.0.*")]
 
 try {
     await Cli.RunAsync<RootCliCommand>(args);
