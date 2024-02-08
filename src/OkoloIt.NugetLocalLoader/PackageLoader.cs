@@ -84,7 +84,7 @@ public sealed class PackageLoader
         // Получение метаданных пакета.
         PackageMetadataResource resource = await _repository.GetResourceAsync<PackageMetadataResource>();
         IEnumerable<IPackageSearchMetadata> packages = await resource.GetMetadataAsync(
-            "Avalonia",
+            packageName,
             includePrerelease: true,
             includeUnlisted: false,
             _cache,
