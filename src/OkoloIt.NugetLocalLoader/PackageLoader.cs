@@ -96,7 +96,7 @@ public sealed class PackageLoader
         if (package is null)
             return "Не удалось скачать пакет.";
 
-        string filePath = Path.Combine(path, $"{package.Identity.Id}.{package.Identity.Version}.nupkg");
+        string filePath = Path.Combine(path, $"{package.Identity.Id}.{package.Identity.Version}.nupkg").ToLower();
         using var packageStream = File.OpenWrite(filePath);
 
         FindPackageByIdResource findPackageByIdResource = await _repository.GetResourceAsync<FindPackageByIdResource>();
