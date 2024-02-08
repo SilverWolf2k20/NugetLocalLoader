@@ -3,6 +3,7 @@ using System.CommandLine.Invocation;
 
 using DotMake.CommandLine;
 
+using OkoloIt.NugetLocalLoader.Cli.Exceptions;
 using OkoloIt.NugetLocalLoader.Core;
 
 namespace OkoloIt.NugetLocalLoader.Cli.Commands.Find.Subcommands;
@@ -35,6 +36,9 @@ public sealed class FindPackageVersionsSubcommand
             PackageName,
             Count,
             context.GetCancellationToken());
+
+        if (versions.Any() == false)
+            throw new PackageNotFoundException(PackageName);
 
         foreach (string version in versions)
             context.Console.WriteLine(version);
