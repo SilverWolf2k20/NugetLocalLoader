@@ -58,8 +58,7 @@ public sealed partial class LoadPackageSubcommand
         if (string.IsNullOrEmpty(Version))
             throw new PackageNotFoundException(PackageName);
 
-        context.Console.WriteLine($"Select version: {Version}");
-        context.Console.WriteLine($"Loading {PackageName}");
+        context.Console.WriteLine($"Loading {PackageName}.{Version}");
 
         PackageLoader packageLoader = new();
         string filePath = await packageLoader.LoadPackageAsync(
